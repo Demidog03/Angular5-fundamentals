@@ -3,7 +3,12 @@
     <h2>Artist directory</h2>
     <p>For: {{ query }}</p>
     <div>
-      <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+      <input type="text"
+             class="form-control"
+             id="basic-url"
+             aria-describedby="basic-addon3"
+             [(ngModel)]="query"
+      >
     </div>
   </div>
   <div class="position-absolute container" style="left: 0; z-index:10">
@@ -11,19 +16,16 @@
       <div class="col-sm-10 col-md-8 col-lg-6 col-xl-5">
         <div class="list-group">
           <a href="#" class="list-group-item list-group-item-action flex-column align-items-start"
-            *ngFor="let artist of artists"
+            *ngFor="let artist of (artists | searchArtists: query)"
              (click)="showArtist($event, artist)"
+             [style.backgroundColor]="artist.highlighted ? '#EEE' : 'white'"
           >
-            <div class="media">
-              <div class="media-body align-self-center">
-                <h5 class="m-0">{{ artist.name }}</h5>
-                {{ artist.reknown }}
-              </div><!-- media body -->
-            </div><!-- media -->
-          </a><!-- link -->
-        </div><!-- list-group -->
-      </div><!-- col -->
-    </div><!-- row -->
-  </div><!-- container -->
+            <app-artist-items [artist]="artist"></app-artist-items>
+          </a>
+        </div>
+      </div>
+    </div>
+    <app-artist-details *ngIf="currentArtist" [artist]="currentArtist"></app-artist-details>
+  </div>
 </div>
 
